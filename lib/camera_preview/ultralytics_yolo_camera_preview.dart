@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ultralytics_yolo/camera_preview/detected_object_overlay.dart';
 import 'package:ultralytics_yolo/ultralytics_yolo.dart';
 import 'package:ultralytics_yolo/ultralytics_yolo_platform_interface.dart';
 
@@ -115,13 +116,22 @@ class _UltralyticsYoloCameraPreviewState
                     ) {
                       if (snapshot.data == null) return Container();
 
-                      return CustomPaint(
-                        painter: ObjectDetectorPainter(
-                          snapshot.data! as List<DetectedObject>,
-                          widget.boundingBoxesColorList,
-                          widget.controller.value.strokeWidth,
-                        ),
+                      // return CustomPaint(
+                      //   painter: ObjectDetectorPainter(
+                      //     snapshot.data! as List<DetectedObject>,
+                      //     widget.boundingBoxesColorList,
+                      //     widget.controller.value.strokeWidth,
+                      //   ),
+                      final detectedObjects =
+                      snapshot.data! as List<DetectedObject>;
+                      // Build the text content
+                      final textContent = detectedObjects.fold(
+                        '',
+                            (String content, DetectedObject object) =>
+                        // ignore: lines_longer_than_80_chars
+                        '$content${object.label} (${object.confidence.toStringAsFixed(2)})\n',
                       );
+                      return DetectedObjectOverlay(textContent: textContent);
                     },
                   );
                 case ImageClassifier:

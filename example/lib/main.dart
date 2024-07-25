@@ -1,5 +1,6 @@
 import 'dart:io' as io;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -61,23 +62,26 @@ class _MyAppState extends State<MyApp> {
                         predictor.loadModel(useGpu: true);
                       },
                     ),
-                    StreamBuilder<double?>(
-                      stream: predictor.inferenceTime,
-                      builder: (context, snapshot) {
-                        final inferenceTime = snapshot.data;
+                    Visibility(
+                      visible: true,
+                      child: StreamBuilder<double?>(
+                        stream: predictor.inferenceTime,
+                        builder: (context, snapshot) {
+                          final inferenceTime = snapshot.data;
 
-                        return StreamBuilder<double?>(
-                          stream: predictor.fpsRate,
-                          builder: (context, snapshot) {
-                            final fpsRate = snapshot.data;
+                          return StreamBuilder<double?>(
+                            stream: predictor.fpsRate,
+                            builder: (context, snapshot) {
+                              final fpsRate = snapshot.data;
 
-                            return Times(
-                              inferenceTime: inferenceTime,
-                              fpsRate: fpsRate,
-                            );
-                          },
-                        );
-                      },
+                              return Times(
+                                inferenceTime: inferenceTime,
+                                fpsRate: fpsRate,
+                              );
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ],
                 );
@@ -96,73 +100,73 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<ObjectDetector> _initObjectDetectorWithLocalModel() async {
-  // final modelPath = await _copy('assets/yolov8n.mlmodel');
-  // final model = LocalYoloModel(
-  //   id: '',
-  //   task: Task.detect,
-  //   format: Format.coreml,
-  //   modelPath: modelPath,
-  // );
-  final modelPath = await _copy('assets/yolov8n_int8.tflite');
-  final metadataPath = await _copy('assets/metadata.yaml');
-  final model = LocalYoloModel(
-  id: '',
-  task: Task.detect,
-  format: Format.tflite,
-  modelPath: modelPath,
-  metadataPath: metadataPath,
-  );
+    // final modelPath = await _copy('assets/yolov8n.mlmodel');
+    // final model = LocalYoloModel(
+    //   id: '',
+    //   task: Task.detect,
+    //   format: Format.coreml,
+    //   modelPath: modelPath,
+    // );
+    final modelPath = await _copy('assets/yolov8n_int8.tflite');
+    final metadataPath = await _copy('assets/metadata.yaml');
+    final model = LocalYoloModel(
+      id: '',
+      task: Task.detect,
+      format: Format.tflite,
+      modelPath: modelPath,
+      metadataPath: metadataPath,
+    );
 
-  return ObjectDetector(model: model);
+    return ObjectDetector(model: model);
   }
 
   Future<ImageClassifier> _initImageClassifierWithLocalModel() async {
-  final modelPath = await _copy('assets/yolov8n-cls.mlmodel');
-  final model = LocalYoloModel(
-  id: '',
-  task: Task.classify,
-  format: Format.coreml,
-  modelPath: modelPath,
-  );
+    final modelPath = await _copy('assets/yolov8n-cls.mlmodel');
+    final model = LocalYoloModel(
+      id: '',
+      task: Task.classify,
+      format: Format.coreml,
+      modelPath: modelPath,
+    );
 
-  // final modelPath = await _copy('assets/yolov8n-cls.bin');
-  // final paramPath = await _copy('assets/yolov8n-cls.param');
-  // final metadataPath = await _copy('assets/metadata-cls.yaml');
-  // final model = LocalYoloModel(
-  //   id: '',
-  //   task: Task.classify,
-  //   modelPath: modelPath,
-  //   paramPath: paramPath,
-  //   metadataPath: metadataPath,
-  // );
+    // final modelPath = await _copy('assets/yolov8n-cls.bin');
+    // final paramPath = await _copy('assets/yolov8n-cls.param');
+    // final metadataPath = await _copy('assets/metadata-cls.yaml');
+    // final model = LocalYoloModel(
+    //   id: '',
+    //   task: Task.classify,
+    //   modelPath: modelPath,
+    //   paramPath: paramPath,
+    //   metadataPath: metadataPath,
+    // );
 
-  return ImageClassifier(model: model);
+    return ImageClassifier(model: model);
   }
 
   Future<String> _copy(String assetPath) async {
-  final path = '${(await getApplicationSupportDirectory()).path}/$assetPath';
-  await io.Directory(dirname(path)).create(recursive: true);
-  final file = io.File(path);
-  if (!await file.exists()) {
-  final byteData = await rootBundle.load(assetPath);
-  await file.writeAsBytes(byteData.buffer
-      .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-  }
-  return file.path;
+    final path = '${(await getApplicationSupportDirectory()).path}/$assetPath';
+    await io.Directory(dirname(path)).create(recursive: true);
+    final file = io.File(path);
+    if (!await file.exists()) {
+      final byteData = await rootBundle.load(assetPath);
+      await file.writeAsBytes(byteData.buffer
+          .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+    }
+    return file.path;
   }
 
   Future<bool> _checkPermissions() async {
-  final cameraStatus = await Permission.camera.status;
-  // final storageStatus = await Permission.storage.status;
+    final cameraStatus = await Permission.camera.status;
+    // final storageStatus = await Permission.storage.status;
 
-  if (!cameraStatus.isGranted) {
-  await Permission.camera.request();
-  }
-  // if (!storageStatus.isGranted) {
-  //   await Permission.storage.request();
-  // }
+    if (!cameraStatus.isGranted) {
+      await Permission.camera.request();
+    }
+    // if (!storageStatus.isGranted) {
+    //   await Permission.storage.request();
+    // }
 
-  return cameraStatus.isGranted;
+    return cameraStatus.isGranted;
   }
 }
 
@@ -189,8 +193,7 @@ class Times extends StatelessWidget {
               color: Colors.black54,
             ),
             child: Text(
-              '${(inferenceTime ?? 0).toStringAsFixed(1)} ms  -  ${(fpsRate ??
-                  0).toStringAsFixed(1)} FPS',
+              '${(inferenceTime ?? 0).toStringAsFixed(1)} ms  -  ${(fpsRate ?? 0).toStringAsFixed(1)} FPS',
               style: const TextStyle(color: Colors.white70),
             )),
       ),
