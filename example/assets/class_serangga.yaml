@@ -1,0 +1,39 @@
+#description: Ultralytics YOLOv8n model trained on coco.yaml
+#author: Ultralytics
+#license: AGPL-3.0 https://ultralytics.com/license
+#date: "2023-11-30T10:16:15.604065"
+#version: 8.0.215
+#stride: 32
+#task: detect
+#batch: 1
+imgsz:
+  - 320
+  - 320
+#names: ['adoretus_dewasa','amathusia_dewasa','amathusia_larva','amathusia_pupa','ambadra_dewasa','aphis_sp_dewasa','aphis_sp_telur','birthamula_dewasa','birthamula_larva','birthosea_bisura_larva','calliteara_dewasa','calliteara_telur', 'dasychira_mendosa_dewasa','dasychira_mendosa_larva','dasychira_mendosa_pupa','dasychira_mendosa_telur','helopeltis_dewasa','helopeltis_nymph','locusta_migratoria_dewasa','locusta_migratoria_nymph', 'oryctes_rhinoceros_dewasa', 'parasa_lepida_larva', 'rhabdoscelus_dewasa', 'rhynchophorus_dewasa', 'spodoptera_litura_dewasa', 'valanga_nigricornis_dewasa']
+names:
+  0: adoretus_dewasa
+  1: amathusia_dewasa
+  2: amathusia_larva
+  3: amathusia_pupa
+  4: ambadra_dewasa
+  5: aphis_sp_dewasa
+  6: aphis_sp_telur
+  7: birthamula_dewasa
+  8: birthamula_larva
+  9: birthosea_bisura_larva
+  10: calliteara_dewasa
+  11: calliteara_telur
+  12: dasychira_mendosa_dewasa
+  13: dasychira_mendosa_larva
+  14: dasychira_mendosa_pupa
+  15: dasychira_mendosa_telur
+  16: helopeltis_dewasa
+  17: helopeltis_nymph
+  18: locusta_migratoria_dewasa
+  19: locusta_migratoria_nymph
+  20: oryctes_rhinoceros_dewasa
+  21: parasa_lepida_larva
+  22: rhabdoscelus_dewasa
+  23: rhynchophorus_dewasa
+  24: spodoptera_litura_dewasa
+  25: valanga_nigricornis_dewasa
