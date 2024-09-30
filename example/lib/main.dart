@@ -103,8 +103,8 @@ class _MyAppState extends State<MyApp> {
   //   format: Format.coreml,
   //   modelPath: modelPath,
   // );
-  final modelPath = await _copy('assets/best_integer_quant_serangga.tflite');
-  final metadataPath = await _copy('assets/class_serangga.yaml');
+  final modelPath = await _copy('assets/best_int8_sawit.tflite');
+  final metadataPath = await _copy('assets/metadata_sawit.yaml');
   final model = LocalYoloModel(
   id: '',
   task: Task.detect,
